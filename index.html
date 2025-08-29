@@ -3,34 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memorice</title> 
+  <title>Memorize</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- Header -->
-  <header class="game-header">
-    <div class="logo-section">
-      <img src="assets/logo.png" alt="Logo Memorice">
-      <span class="titulo">Memorice</span>
-    </div>
-
-    <div class="timer">
-      <span id="contador">00:00</span>
-    </div>
-
-    <div class="controls">
-      <button id="btnDificultad">Dificultad</button>
-      <button id="btnReiniciar">Reiniciar</button>
-      <button id="btnSalir">Salir</button>
+  <header>
+    <div class="logo">🃏</div>
+    <div class="title">Memorize</div>
+    <div class="timer" id="timer">00:00</div>
+    <div class="buttons">
+      <button id="difficulty">Dificultad</button>
+      <button id="reset">Reiniciar</button>
+      <button id="exit">Salir</button>
     </div>
   </header>
 
-  <!-- Tablero de cartas -->
   <main>
     <section id="board" class="board"></section>
   </main>
 
-  <!-- Plantilla de carta -->
+  <!-- Template para las cartas -->
   <template id="card-template">
     <button class="card">
       <div class="card-inner">
