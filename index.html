@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Trivia Challenge</h1>
+            <div class="score-container">
+                <span>Puntaje: </span>
+                <span id="score">0</span>
+                <span> / </span>
+                <span id="total-questions">5</span>
+            </div>
+        </header>
+
+        <main class="game-container">
+            <div class="question-container">
+                <div class="question-number">
+                    Pregunta <span id="current-question">1</span> de <span id="max-questions">5</span>
+                </div>
+                <h2 id="question-text">Cargando pregunta...</h2>
+            </div>
+
+            <div class="options-container" id="options-container">
+                <!-- Las opciones se generarán dinámicamente con JavaScript -->
+            </div>
+
+            <div class="feedback" id="feedback"></div>
+
+            <div class="controls">
+                <button id="next-btn" class="btn btn-primary" disabled>Siguiente Pregunta</button>
+            </div>
+        </main>
+
+        <div class="result-container" id="result-container" style="display: none;">
+            <h2>¡Juego Terminado!</h2>
+            <div class="final-score">
+                <p>Tu puntaje final es:</p>
+                <div class="score-display">
+                    <span id="final-score">0</span> / <span id="final-total">5</span>
+                </div>
+                <div class="percentage" id="percentage">0%</div>
+            </div>
+            <div class="challenge-section">
+                <div class="challenge-message" id="challenge-message"></div>
+                <button id="challenge-btn" class="btn btn-challenge" style="display: none;">🚀 Ver Desafío</button>
+            </div>
+            <button id="restart-btn" class="btn btn-secondary">Jugar de Nuevo</button>
+        </div>
+
+        <!-- Ventana Modal de Desafío -->
+        <div class="challenge-modal" id="challenge-modal" style="display: none;">
+            <div class="challenge-content">
+                <div class="challenge-header">
+                    <h2>🎯 Laboratorio 1: Desafío de Programación</h2>
+                    <button class="close-btn" id="close-challenge">×</button>
+                </div>
+                <div class="challenge-body">
+                    <div class="challenge-intro">
+                        <h3>🚀 ¡Felicidades por completar la trivia!</h3>
+                        <p>Ahora que has experimentado esta aplicación interactiva, es tu turno de crear algo similar.</p>
+                    </div>
+                    
+                    <div class="challenge-task">
+                        <h4>📋 Tu Desafío:</h4>
+                        <p><strong>Crear una aplicación web interactiva</strong> que implemente las siguientes funcionalidades:</p>
+                        
+                        <ul class="challenge-requirements">
+                            <li>✅ <strong>Interfaz de usuario atractiva</strong> con HTML5 y CSS3</li>
+                            <li>✅ <strong>Interactividad dinámica</strong> usando JavaScript</li>
+                            <li>✅ <strong>Sistema de puntuación</strong> o progreso del usuario</li>
+                            <li>✅ <strong>Feedback visual</strong> para las acciones del usuario</li>
+                            <li>✅ <strong>Diseño responsive</strong> que funcione en móviles</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="challenge-ideas">
+                        <h4>💡 Ideas de Proyectos:</h4>
+                        <div class="ideas-grid">
+                            <div class="idea-card">
+                                <h5>🧮 Calculadora Avanzada</h5>
+                                <p>Con historial, operaciones científicas y temas personalizables</p>
+                            </div>
+                            <div class="idea-card">
+                                <h5>🎮 Juego de Memoria</h5>
+                                <p>Cartas que se voltean, niveles de dificultad y cronómetro</p>
+                            </div>
+                            <div class="idea-card">
+                                <h5>📝 Lista de Tareas</h5>
+                                <p>Agregar, editar, completar tareas con categorías y filtros</p>
+                            </div>
+                            <div class="idea-card">
+                                <h5>🌤️ App del Clima</h5>
+                                <p>Consulta el clima por ciudad con gráficos y pronósticos</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-tech">
+                        <h4>🛠️ Tecnologías a Usar:</h4>
+                        <div class="tech-badges">
+                            <span class="tech-badge html">HTML5</span>
+                            <span class="tech-badge css">CSS3</span>
+                            <span class="tech-badge js">JavaScript</span>
+                            <span class="tech-badge responsive">Responsive Design</span>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-tips">
+                        <h4>💡 Consejos para Empezar:</h4>
+                        <ol>
+                            <li>Planifica la estructura y funcionalidades antes de codificar</li>
+                            <li>Comienza con un diseño simple y ve agregando características</li>
+                            <li>Usa las herramientas de desarrollador del navegador para depurar</li>
+                            <li>Inspecciona el código de esta trivia como referencia</li>
+                            <li>¡No tengas miedo de experimentar y ser creativo!</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="challenge-footer">
+                    <button id="accept-challenge" class="btn btn-primary">🎯 ¡Acepto el Desafío!</button>
+                    <button id="close-challenge-footer" class="btn btn-secondary">Tal vez después</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
