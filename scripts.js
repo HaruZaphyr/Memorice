@@ -5,7 +5,7 @@ const timerElement = document.getElementById('timer');
 function updateTimer() {
   const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
   const secs = String(seconds % 60).padStart(2, '0');
-  timerElement.textContent = `${minutes}:${secs}`;
+  timerElement.textContent = `${minutes}:${secs}`; 
   seconds++;
 }
 
