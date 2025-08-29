@@ -10,15 +10,18 @@
 
   <!-- HEADER -->
   <header class="game-header">
+    <!-- Logo + Titulo -->
     <div class="logo-section">
       <img src="assets/logo.png" alt="Logo Memorice">
       <span class="titulo">Memorice</span>
     </div>
 
+    <!-- Timer -->
     <div class="timer">
       <span id="contador">00:00</span>
     </div>
 
+    <!-- Botones -->
     <div class="controls">
       <button id="btnDificultad">Dificultad</button>
       <button id="btnReiniciar">Reiniciar</button>
@@ -28,15 +31,17 @@
 
   <!-- MAIN -->
   <main class="game-main">
+    <!-- Panel de información -->
     <aside class="panel-info">
       <h3>Puntaje: <span id="score">0</span></h3>
       <h3>Pares restantes: <span id="pares">8</span></h3>
     </aside>
 
+    <!-- Tablero de cartas -->
     <section id="board" class="board"></section>
   </main>
 
-  <!-- Template de cartas -->
+  <!-- Template cartas -->
   <template id="card-template">
     <button class="card">
       <div class="card-inner">
@@ -49,4 +54,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
