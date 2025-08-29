@@ -11,7 +11,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #4a90e2;
+    background: #4B0082; /* Púrpura oscuro (índigo) */
     color: white;
     padding: 0.8rem 1.5rem;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
