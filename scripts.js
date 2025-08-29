@@ -1,51 +1,25 @@
-// --- Timer ---
-let segundos = 0;
-let minutos = 0;
-let timer;
-let jugando = false;
+// Tablero y plantilla
+const board = document.getElementById('board');
+const template = document.getElementById('card-template');
 
-// Función para iniciar el timer
-function iniciarTimer() {
-    if (!jugando) {
-        jugando = true;
-        timer = setInterval(() => {
-            segundos++;
-            if (segundos === 60) {
-                minutos++;
-                segundos = 0;
-            }
-            document.getElementById("contador").textContent =
-                `${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
-        }, 1000);
-    }
-}
+// Emojis del juego
+const emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝'];
 
-// Reiniciar timer
-function reiniciarTimer() {
-    clearInterval(timer);
-    segundos = 0;
-    minutos = 0;
-    jugando = false;
-    document.getElementById("contador").textContent = "00:00";
-}
+// Duplicamos el array para formar pares
+const cardsArray = [...emojis, ...emojis];
 
-// --- Botones ---
-document.getElementById("btnReiniciar").addEventListener("click", () => {
-    reiniciarTimer();
-    iniciarTimer();
-    alert("¡Juego reiniciado!");
+// Barajamos (shuffle)
+cardsArray.sort(() => Math.random() - 0.5);
+
+// Generamos las cartas
+cardsArray.forEach(symbol => {
+  const card = template.content.firstElementChild.cloneNode(true);
+  card.querySelector('.card-front').textContent = symbol;
+
+  card.addEventListener('click', () => {
+    card.classList.toggle('is-flipped');
+  });
+
+  board.appendChild(card);
 });
 
-document.getElementById("btnDificultad").addEventListener("click", () => {
-    alert("Aquí podrías mostrar un menú de dificultad 😃");
-});
-
-document.getElementById("btnSalir").addEventListener("click", () => {
-    if (confirm("¿Seguro que quieres salir del juego?")) {
-        window.location.href = "index.html"; // o una página de inicio
-    }
-});
-
-// 🔹 Iniciar el timer automáticamente cuando el jugador empiece
-// (ejemplo: al cargar la página, lo puedes cambiar a cuando dé clic en 'empezar')
-window.onload = iniciarTimer;
