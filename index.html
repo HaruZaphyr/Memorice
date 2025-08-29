@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>memorice</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memorice</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="game-header">
-        <!-- Logo + Texto fijo -->
-        <div class="logo-section">
-            <img src="assets/logo.png" alt="Logo Memorice">
-            <span class="titulo">Memorice</span>
-        </div>
-    
-        <!-- Timer -->
-        <div class="timer">
-            <span id="contador">00:00</span>
-        </div>
-    
-        <!-- Botones -->
-        <div class="controls">
-            <button id="btnDificultad">Dificultad</button>
-            <button id="btnReiniciar">Reiniciar</button>
-            <button id="btnSalir">Salir</button>
-        </div>
-    </header>
+  <!-- Header -->
+  <header class="game-header">
+    <div class="logo-section">
+      <img src="assets/logo.png" alt="Logo Memorice">
+      <span class="titulo">Memorice</span>
+    </div>
 
-    <main>
-        <!-- Aquí iría tu tablero de juego -->
-        <h2>Bienvenido al juego de Memorice</h2>
-        <p>Haz clic en las cartas para comenzar.</p>
-    </main>
-    <footer>
-        <p>&copy; 2025 - Mi Página Web</p>
-    </footer>
+    <div class="timer">
+      <span id="contador">00:00</span>
+    </div>
+
+    <div class="controls">
+      <button id="btnDificultad">Dificultad</button>
+      <button id="btnReiniciar">Reiniciar</button>
+      <button id="btnSalir">Salir</button>
+    </div>
+  </header>
+
+  <!-- Tablero de cartas -->
+  <main>
+    <section id="board" class="board"></section>
+  </main>
+
+  <!-- Plantilla de carta -->
+  <template id="card-template">
+    <button class="card">
+      <div class="card-inner">
+        <div class="card-face card-back">?</div>
+        <div class="card-face card-front"></div>
+      </div>
+    </button>
+  </template>
+
+  <script src="script.js"></script>
 </body>
 </html>
+
 
