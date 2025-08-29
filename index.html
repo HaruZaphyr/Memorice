@@ -3,32 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Página Web</title>
-    <!-- Vincular CSS -->
+    <title>memorice</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Bienvenido a mi página 🚀</h1>
-        <nav>
-            <a href="#">Inicio</a>
-            <a href="#">Sobre mí</a>
-            <a href="#">Contacto</a>
-        </nav>
+    <header class="game-header">
+        <!-- Logo -->
+        <div class="logo">
+            <img src="logo.png" alt="Logo Memorice">
+        </div>
+    
+        <!-- Timer -->
+        <div class="timer">
+            <span id="contador">00:00</span>
+        </div>
+    
+            <!-- Botones -->
+        <div class="controls">
+            <button id="btnDificultad">Dificultad</button>
+            <button id="btnReiniciar">Reiniciar</button>
+            <button id="btnSalir">Salir</button>
+        </div>
     </header>
-
     <main>
-        <h2>Hola, soy [Tu Nombre]</h2>
-        <p>Este es mi sitio web publicado con <strong>GitHub Pages</strong>.</p>
-        <button id="miBoton">Haz clic aquí</button>
+        <!-- Aquí iría tu tablero de juego -->
+        <h2>Bienvenido al juego de Memorice</h2>
+        <p>Haz clic en las cartas para comenzar.</p>
     </main>
-
     <footer>
         <p>&copy; 2025 - Mi Página Web</p>
     </footer>
-
-    <!-- Vincular JS -->
-    <script src="script.js"></script>
 </body>
 </html>
 
