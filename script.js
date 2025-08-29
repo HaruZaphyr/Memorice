@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const secs = String(seconds % 60).padStart(2, '0');
     timerElement.textContent = `${minutes}:${secs}`;
     seconds++;
-  }
+  } 
 
   setInterval(updateTimer, 1000);
 
