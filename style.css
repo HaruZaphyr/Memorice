@@ -17,12 +17,25 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-/* Logo */
-.logo img {
+/* Logo -----------------------------------*/
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre logo e input */
+}
+.logo-section img {
     height: 50px;
 }
+.logo-section input {
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    outline: none;
+    font-size: 14px;
+}
 
-/* Timer centrado */
+
+/* Timer centrado ------------------------------------------*/
 .timer {
     font-size: 1.5rem;
     font-weight: bold;
