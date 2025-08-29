@@ -84,11 +84,12 @@ body {
 
 /* TABLERO DE CARTAS */
 .board {
-  flex: 1;
+  flex: 1;                  /* ocupar espacio restante */
   display: grid;
   grid-template-columns: repeat(4, 100px);
   gap: 15px;
   justify-content: center;
+  margin-top: 20px;
 }
 
 /* CARTAS */
