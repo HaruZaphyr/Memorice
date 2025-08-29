@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const secs = String(seconds % 60).padStart(2, '0');
     timerElement.textContent = `${minutes}:${secs}`;
     seconds++;
-  } 
+  }
 
   setInterval(updateTimer, 1000);
 
@@ -32,44 +32,35 @@ document.addEventListener('DOMContentLoaded', () => {
   let secondCard = null;
   let lockBoard = false;
 
-  // Crear cartas
-  cards.forEach(symbol => {
-    const card = template.content.firstElementChild.cloneNode(true);
-    card.querySelector('.card-front').textContent = symbol;
+  function flipCard(card) {
+    if (lockBoard || card.classList.contains('is-flipped')) return;
 
-    card.addEventListener('click', () => {
-      if (lockBoard || card.classList.contains('is-flipped')) return;
+    card.classList.add('is-flipped');
 
-      card.classList.add('is-flipped');
+    if (!firstCard) {
+      firstCard = card;
+      return;
+    }
 
-      if (!firstCard) {
-        firstCard = card;
-        return;
-      }
+    secondCard = card;
+    lockBoard = true; // bloqueamos tablero inmediatamente
 
-      secondCard = card;
-      lockBoard = true;
+    const firstSymbol = firstCard.querySelector('.card-front').textContent;
+    const secondSymbol = secondCard.querySelector('.card-front').textContent;
 
-      // Comprobar si coinciden
-      const firstSymbol = firstCard.querySelector('.card-front').textContent;
-      const secondSymbol = secondCard.querySelector('.card-front').textContent;
+    if (firstSymbol === secondSymbol) {
+      // Pareja encontrada
+      score += 10;
+      paresRestantes--;
+      resetCards(true);
+    } else {
+      // No coinciden: voltear después de 1s
+      setTimeout(() => resetCards(false), 1000);
+    }
 
-      if (firstSymbol === secondSymbol) {
-        // Pareja encontrada
-        score += 10;
-        paresRestantes--;
-        resetCards(true);
-      } else {
-        // No coinciden: voltear después de 1s
-        setTimeout(() => resetCards(false), 1000);
-      }
-
-      scoreElement.textContent = score;
-      paresElement.textContent = paresRestantes;
-    });
-
-    board.appendChild(card);
-  });
+    scoreElement.textContent = score;
+    paresElement.textContent = paresRestantes;
+  }
 
   function resetCards(match) {
     if (!match) {
@@ -78,6 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     firstCard = null;
     secondCard = null;
-    lockBoard = false;
+    lockBoard = false; // desbloqueamos tablero después de procesar
   }
+
+  // Crear cartas
+  cards.forEach(symbol => {
+    const card = template.content.firstElementChild.cloneNode(true);
+    card.querySelector('.card-front').textContent = symbol;
+    card.addEventListener('click', () => flipCard(card));
+    board.appendChild(card);
+  });
 });
+
