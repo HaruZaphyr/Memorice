@@ -2,6 +2,7 @@
 let seconds = 0;
 const timerElement = document.getElementById('contador');
 
+
 function updateTimer() {
   const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
   const secs = String(seconds % 60).padStart(2, '0');
