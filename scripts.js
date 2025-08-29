@@ -1,4 +1,4 @@
-// ====== TIMER (contador en el header) ======
+// ====== TIMER ======
 let seconds = 0;
 const timerElement = document.getElementById('timer');
 
@@ -11,13 +11,19 @@ function updateTimer() {
 
 setInterval(updateTimer, 1000);
 
-// ====== MEMORIZE (cartas con emojis) ======
+// ====== MEMORIZE ======
 const board = document.getElementById('board');
 const template = document.getElementById('card-template');
 
+// Pares de emojis (duplicados)
 const emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝'];
+const cards = [...emojis, ...emojis];
 
-emojis.forEach(symbol => {
+// Mezclar array (shuffle)
+cards.sort(() => 0.5 - Math.random());
+
+// Crear las cartas en el tablero
+cards.forEach(symbol => {
   const card = template.content.firstElementChild.cloneNode(true);
   card.querySelector('.card-front').textContent = symbol;
   card.addEventListener('click', () => {
