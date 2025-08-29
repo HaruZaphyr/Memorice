@@ -6,35 +6,46 @@
   font-family: Arial, sans-serif;
 }
 
+/* BODY */
 body {
   background: #f4f4f9;
   color: #fff;
 }
 
-/* Header */
-header {
+/* HEADER */
+.game-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4b0082; /* Púrpura oscuro */
+  background-color: #4b0082; /* púrpura oscuro */
   padding: 10px 20px;
 }
 
-header .logo {
-  font-size: 2rem;
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-header .title {
+.logo-section img {
+  height: 50px;
+}
+
+.logo-section .titulo {
   font-size: 1.5rem;
-  margin-left: 10px;
+  font-weight: bold;
+  color: white;
+  background: rgba(255,255,255,0.1); /* fondo transparente */
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
-header .timer {
+.timer {
   font-size: 1.5rem;
   font-weight: bold;
 }
 
-header .buttons button {
+.controls button {
   margin-left: 10px;
   padding: 6px 12px;
   border: none;
@@ -44,17 +55,37 @@ header .buttons button {
   cursor: pointer;
 }
 
-header .buttons button:hover {
+.controls button:hover {
   background: #6a0dad;
 }
 
-/* Tablero */
+/* MAIN */
+.game-main {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Panel lateral */
+.panel-info {
+  width: 200px;
+  background: #6a0dad;
+  padding: 15px;
+  border-radius: 10px;
+  height: fit-content;
+}
+
+.panel-info h3 {
+  margin-bottom: 15px;
+}
+
+/* Tablero de cartas */
 .board {
+  flex: 1; /* ocupar todo el espacio restante */
   display: grid;
   grid-template-columns: repeat(4, 100px);
   gap: 15px;
   justify-content: center;
-  margin: 30px auto;
 }
 
 /* Cartas */
@@ -99,5 +130,3 @@ header .buttons button:hover {
   color: black;
   transform: rotateY(180deg);
 }
-
-
