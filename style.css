@@ -1,54 +1,49 @@
+/* Estilos generales */
 body {
-    font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    font-family: Arial, sans-serif;
     background: #f4f4f9;
     color: #333;
 }
 
-header {
+/* Header de juego */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: #4a90e2;
     color: white;
-    padding: 1rem;
-    text-align: center;
+    padding: 0.8rem 1.5rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
-nav a {
-    margin: 0 10px;
-    color: white;
-    text-decoration: none;
+/* Logo */
+.logo img {
+    height: 50px;
+}
+
+/* Timer centrado */
+.timer {
+    font-size: 1.5rem;
     font-weight: bold;
 }
 
-nav a:hover {
-    text-decoration: underline;
-}
-
-main {
-    padding: 2rem;
-    text-align: center;
-}
-
-button {
-    padding: 10px 20px;
-    background: #4a90e2;
-    color: white;
+/* Controles (botones) */
+.controls button {
+    margin-left: 10px;
+    padding: 8px 15px;
+    background: white;
+    color: #4a90e2;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
 }
 
-button:hover {
+.controls button:hover {
     background: #357ab8;
+    color: white;
 }
 
-footer {
-    background: #333;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
 
