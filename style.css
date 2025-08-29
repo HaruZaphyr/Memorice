@@ -1,4 +1,4 @@
-/* Reset básico */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
@@ -8,8 +8,8 @@
 
 /* BODY */
 body {
-  background: #f4f4f9;
-  color: #fff;
+  background: #f0f0f5;
+  color: #000;
 }
 
 /* HEADER */
@@ -17,7 +17,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4b0082; /* púrpura oscuro */
+  background-color: #4B0082; /* púrpura oscuro */
   padding: 10px 20px;
 }
 
@@ -35,7 +35,7 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
-  background: rgba(255,255,255,0.1); /* fondo transparente */
+  background: rgba(255,255,255,0.1); /* transparente */
   padding: 5px 10px;
   border-radius: 5px;
 }
@@ -43,6 +43,7 @@ body {
 .timer {
   font-size: 1.5rem;
   font-weight: bold;
+  color: white;
 }
 
 .controls button {
@@ -66,29 +67,30 @@ body {
   padding: 20px;
 }
 
-/* Panel lateral */
+/* PANEL LATERAL */
 .panel-info {
   width: 200px;
   background: #6a0dad;
   padding: 15px;
   border-radius: 10px;
-  height: fit-content;
+  color: white;
+  flex-shrink: 0;
 }
 
 .panel-info h3 {
   margin-bottom: 15px;
 }
 
-/* Tablero de cartas */
+/* TABLERO DE CARTAS */
 .board {
-  flex: 1; /* ocupar todo el espacio restante */
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(4, 100px);
   gap: 15px;
   justify-content: center;
 }
 
-/* Cartas */
+/* CARTAS */
 .card {
   perspective: 1000px;
   border: none;
