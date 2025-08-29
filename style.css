@@ -21,17 +21,18 @@ body {
 .logo-section {
     display: flex;
     align-items: center;
-    gap: 10px; /* Espacio entre logo e input */
+    gap: 10px;
 }
+
 .logo-section img {
     height: 50px;
 }
-.logo-section input {
-    padding: 8px;
-    border: none;
-    border-radius: 6px;
-    outline: none;
-    font-size: 14px;
+
+.logo-section .titulo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white; /* mismo color del header */
+    letter-spacing: 2px;
 }
 
 
