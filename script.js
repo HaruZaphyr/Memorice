@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const victoryModal = document.getElementById("victoryModal");
   const victoryScore = document.getElementById("victoryScore");
   const victoryTime = document.getElementById("victoryTime");
-  const btnPlayAgain = document.getElementById("btnPlayAgain");
+  const btnPlayAgain = document.getElementById("btnPlayAgain"); 
   const btnSalirVictory = document.getElementById("btnSalirVictory");
 
   let score = 0;
