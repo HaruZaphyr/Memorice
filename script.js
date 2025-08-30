@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   // ===== TIMER =====
+  let difactual = null;
   let seconds = 0;
   const timerElement = document.getElementById('contador');
   let timerInterval = null;
@@ -102,7 +103,38 @@ document.addEventListener('DOMContentLoaded', () => {
   botones.forEach(btn => {
     btn.addEventListener("click", () => {
       const dificultad = btn.dataset.dif;
+      difactual = dificultad;
       iniciarJuego(dificultad);
     });
+  });
+
+  const btnreset = document.getElementById('btnReiniciar');
+  btnreset.addEventListener("click", () =>{
+    iniciarJuego(difactual);
+  });
+  
+  const menudif = document.getElementById('menu-dificultad');
+  const btndif = document.getElementById('btnDificultad');
+  btndif.addEventListener("click", () =>{
+    menudif.style.display = "flex";
+  });
+
+  const btnsalir = document.getElementById('btnSalir');
+  btnsalir.addEventListener("click", () =>{
+    if(timerInterval) clearInterval(timerInterval);
+
+    board.innerHTML = "";
+    scoreElement.textContent = 0;
+    paresElement.textContent = 0;
+    timerElement.textContent = "00:00";
+
+    menudif.style.display = "flex";
+
+    score = 0;
+    paresRestantes = 0;
+    seconds = 0;
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
   });
 });
