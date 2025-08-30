@@ -63,20 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function flipCard(card) {
     if (lockBoard || card.classList.contains('is-flipped')) return;
-
+  
     card.classList.add('is-flipped');
-
+  
     if (!firstCard) {
       firstCard = card;
       return;
     }
-
+  
     secondCard = card;
     lockBoard = true;
-
+  
     const firstSymbol = firstCard.querySelector('.card-front').textContent;
     const secondSymbol = secondCard.querySelector('.card-front').textContent;
-
+  
     if (firstSymbol === secondSymbol) {
       score += 10;
       paresRestantes--;
@@ -84,10 +84,17 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       setTimeout(() => resetCards(false), 1000);
     }
-
+  
     scoreElement.textContent = score;
     paresElement.textContent = paresRestantes;
+  
+    // 🔹 Aquí agregamos la condición de victoria
+    if (paresRestantes === 0) {
+      clearInterval(timerInterval);
+      mostrarVictoria();
+    }
   }
+
 
   function resetCards(match) {
     if (!match) {
