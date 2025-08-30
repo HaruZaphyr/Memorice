@@ -143,6 +143,32 @@ document.addEventListener('DOMContentLoaded', () => {
   btnSalirVictory.addEventListener("click", ()=>{
     victoryModal.style.display = "none";
     reiniciarJuego();
+    pantallainicial.style.display = "flex";
+  });
+  const btnsalir = document.getElementById('btnSalir');
+  btnsalir.addEventListener("click", () =>{
+    if(timerInterval) clearInterval(timerInterval);
+
+    board.innerHTML = "";
+    scoreElement.textContent = 0;
+    paresElement.textContent = 0;
+    timerElement.textContent = "00:00";
+
+    pantallainicial.style.display = "flex";
+
+    score = 0;
+    paresRestantes = 0;
+    seconds = 0;
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+  });
+
+  const pantallainicial = document.getElementById("pantalla-inicial");
+  const btnPlay = document.getElementById("btnPlay");
+
+  btnPlay.addEventListener("click", () =>{
+    pantallainicial.style.display = "none";
     menudif.style.display = "flex";
   });
 });

@@ -1,3 +1,56 @@
+.pantalla-inicial {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #4B0082, #6a0dad); /* degradado morado */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000; /* encima de todo */
+}
+
+.pantalla-content {
+  text-align: center;
+  color: white;
+}
+
+#video-fondo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* que el video cubra toda la pantalla */
+  z-index: -1;       /* se pone detrás del contenido */
+}
+
+#video-fondo {
+  filter: brightness(60%);
+}
+
+
+.pantalla-content h1 {
+  font-size: 3rem;
+  margin-bottom: 200px;
+}
+
+.pantalla-content button {
+  padding: 12px 25px;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: #9370db;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.pantalla-content button:hover {
+  background: #4B0082;
+}
+
 /* RESET */
 * {
   margin: 0;
