@@ -27,23 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
   let secondCard = null;
   let lockBoard = false;
 
-  let flipTimeout = 1000;
-  let penalizacionFallos = 0;
-
   function iniciarJuego(dificultad) {
     let emojis = [];
     if (dificultad === "facil") {
-      emojis = ['🍎','🍌','🍇','🍉'];
-      flipTimeout = 1000;
-      penalizacionFallos = 0;
+      emojis = ['🍎','🍌','🍇','🍉'];         
     } else if (dificultad === "medio") {
-      emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝'];
-      flipTimeout = 800;
-      penalizacionFallos = 0;
+      emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝']; 
     } else if (dificultad === "dificil") {
       emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝','🥥','🥭','🍑','🍐'];
-      flipTimeout = 500;
-      penalizacionFallos = 5;
     }
 
     // Reiniciar tablero
@@ -56,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = [...emojis, ...emojis];
     cards.sort(() => Math.random() - 0.5);
 
-    // Renderizar cartas
     cards.forEach(symbol => {
       const card = template.content.firstElementChild.cloneNode(true);
       card.querySelector('.card-front').textContent = symbol;
@@ -91,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
       paresRestantes--;
       resetCards(true);
     } else {
-      setTimeout(() => resetCards(false), flipTimeout);
+      setTimeout(() => resetCards(false), 1000);
     }
 
     scoreElement.textContent = score;
@@ -108,27 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!match) {
       firstCard.classList.remove('is-flipped');
       secondCard.classList.remove('is-flipped');
-
-      // Mezclar cartas visibles en medio/difícil
-      if (difactual === "medio" || difactual === "dificil") {
-        const cardsArray = Array.from(board.children);
-        cardsArray.sort(() => Math.random() - 0.5);
-        board.innerHTML = '';
-        cardsArray.forEach(c => board.appendChild(c));
-      }
-
-      // Penalización en difícil
-      if (difactual === "dificil") {
-        score = Math.max(0, score - penalizacionFallos);
-        scoreElement.textContent = score;
-      }
     }
-
     firstCard = null;
     secondCard = null;
     lockBoard = false;
   }
 
+  // Botones de dificultad
   const botones = document.querySelectorAll(".btn-dif");
   botones.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -138,19 +114,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const btnreset = document.getElementById('btnReiniciar');
-  btnreset.addEventListener("click", () => {
+  // Botón reiniciar
+  document.getElementById('btnReiniciar').addEventListener("click", () => {
     iniciarJuego(difactual);
   });
 
+  // Botón mostrar menú dificultad
   const menudif = document.getElementById('menu-dificultad');
-  const btndif = document.getElementById('btnDificultad');
-  btndif.addEventListener("click", () => {
+  document.getElementById('btnDificultad').addEventListener("click", () => {
     menudif.style.display = "flex";
   });
 
-  const btnsalir = document.getElementById('btnSalir');
-  btnsalir.addEventListener("click", () => {
+  // Botón salir
+  document.getElementById('btnSalir').addEventListener("click", () => {
     if(timerInterval) clearInterval(timerInterval);
 
     board.innerHTML = "";
@@ -167,42 +143,46 @@ document.addEventListener('DOMContentLoaded', () => {
     secondCard = null;
     lockBoard = false;
   });
+
+  // ===== MODAL DE VICTORIA =====
+  const victoryModal = document.getElementById("victoryModal");
+  const victoryScore = document.getElementById("victoryScore");
+  const victoryTime = document.getElementById("victoryTime");
+  const btnPlayAgain = document.getElementById("btnPlayAgain");
+  const btnSalirVictory = document.getElementById("btnSalirVictory");
+
+  function mostrarVictoria() {
+    victoryScore.textContent = `Puntaje: ${score}`;
+    const minutos = Math.floor(seconds / 60);
+    const segs = seconds % 60;
+    victoryTime.textContent = `Tiempo: ${String(minutos).padStart(2,"0")}:${String(segs).padStart(2,"0")}`;
+    victoryModal.style.display = "flex";
+  }
+
+  // Volver a jugar → abre menú de dificultad
+  btnPlayAgain.addEventListener("click", () => {
+    victoryModal.style.display = "none";
+    menudif.style.display = "flex"; 
+  });
+
+  // Salir desde modal victoria
+  btnSalirVictory.addEventListener("click", () => {
+    victoryModal.style.display = "none";
+
+    if(timerInterval) clearInterval(timerInterval);
+    board.innerHTML = "";
+    scoreElement.textContent = 0;
+    paresElement.textContent = 0;
+    timerElement.textContent = "00:00";
+
+    score = 0;
+    paresRestantes = 0;
+    seconds = 0;
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+
+    menudif.style.display = "flex";
+  });
+
 });
-
-// Modal de victoria
-const victoryModal = document.getElementById("victoryModal");
-const victoryScore = document.getElementById("victoryScore");
-const victoryTime = document.getElementById("victoryTime");
-
-function mostrarVictoria() {
-  victoryScore.textContent = `Puntaje: ${score}`;
-  let minutos = Math.floor(seconds / 60);
-  let segs = seconds % 60;
-  victoryTime.textContent = `Tiempo: ${String(minutos).padStart(2,"0")}:${String(segs).padStart(2,"0")}`;
-  victoryModal.style.display = "flex";
-}
-
-document.getElementById("playAgain").addEventListener("click", () => {
-  victoryModal.style.display = "none";
-  document.getElementById("menu-dificultad").style.display = "flex"; // mostrar selección de dificultad
-});
-
-document.getElementById("goMenu").addEventListener("click", () => {
-  victoryModal.style.display = "none";
-  const menudif = document.getElementById('menu-dificultad');
-  menudif.style.display = "flex";
-
-  if(timerInterval) clearInterval(timerInterval);
-  board.innerHTML = "";
-  scoreElement.textContent = 0;
-  paresElement.textContent = 0;
-  timerElement.textContent = "00:00";
-
-  score = 0;
-  paresRestantes = 0;
-  seconds = 0;
-  firstCard = null;
-  secondCard = null;
-  lockBoard = false;
-});
-
