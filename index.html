@@ -4,10 +4,23 @@
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memorice</title>
-  <link rel="icon" href="assets\logo.png">
+  <link rel="icon" href="assets/logo.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+  <div id="pantalla-inicial" class="pantalla-inicial">
+
+    <video autoplay muted loop id="video-fondo">
+      <source src="assets/fondo.mp4" type="video/mp4">
+      Tu navegador no soporta videos en HTML5.
+    </video>
+    
+    <div class="pantalla-content">
+      <h1>Memorice</h1>
+      <button id="btnPlay">Play</button>
+    </div>
+  </div>
   <!-- HEADER -->
   <header class="game-header">
     <!-- Logo + Titulo -->
@@ -50,14 +63,28 @@
       </div>
     </button>
   </template>
+
+  <!-- Menu dificultad -->
   <div id="menu-dificultad" class="menu-dificultad">
-  <div class="menu-content">
-    <h2>Selecciona la dificultad</h2>
-    <button class="btn-dif" data-dif="facil">Fácil</button>
-    <button class="btn-dif" data-dif="medio">Medio</button>
-    <button class="btn-dif" data-dif="dificil">Difícil</button>
+    <div class="menu-content">
+      <h2>Selecciona la dificultad</h2>
+      <button class="btn-dif" data-dif="facil">Fácil</button>
+      <button class="btn-dif" data-dif="medio">Medio</button>
+      <button class="btn-dif" data-dif="dificil">Difícil</button>
+    </div>
+  </div>
+
+  <!-- Modal de victoria -->
+<div id="victoryModal" class="modal">
+  <div class="modal-content">
+    <h2>¡Felicidades! Ganaste</h2>
+    <p id="victoryScore">Puntaje: 0</p>
+    <p id="victoryTime">Tiempo: 00:00</p>
+    <button id="btnPlayAgain">Volver a jugar</button>
+    <button id="btnSalirVictory">Salir</button>
   </div>
 </div>
+
   <script src="script.js"></script>
 </body>
 </html>
