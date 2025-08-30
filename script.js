@@ -138,3 +138,42 @@ document.addEventListener('DOMContentLoaded', () => {
     lockBoard = false;
   });
 });
+
+//modal para la win en caso de
+const victoryModal = document.getElementById("victoryModal");
+const victoryScore = document.getElementById("victoryScore");
+const victoryTime = document.getElementById("victoryTime");
+
+function mostrarVictoria() {
+  victoryScore.textContent = `Puntaje: ${score}`;
+  let minutos = Math.floor(seconds / 60);
+  let segs = seconds % 60;
+  victoryTime.textContent = `Tiempo: ${String(minutos).padStart(2, "0")}:${String(segs).padStart(2, "0")}`;
+  victoryModal.style.display = "flex";
+}
+
+document.getElementById("playAgain").addEventListener("click", () => {
+  victoryModal.style.display = "none";
+  iniciarJuego(difactual);
+});
+
+
+document.getElementById("goMenu").addEventListener("click", () => {
+  victoryModal.style.display = "none";
+
+  if(timerInterval) clearInterval(timerInterval);
+  board.innerHTML = "";
+  scoreElement.textContent = 0;
+  paresElement.textContent = 0;
+  timerElement.textContent = "00:00";
+
+  score = 0;
+  paresRestantes = 0;
+  seconds = 0;
+  firstCard = null;
+  secondCard = null;
+  lockBoard = false;
+
+  const menudif = document.getElementById('menu-dificultad');
+  menudif.style.display = "flex";
+});
