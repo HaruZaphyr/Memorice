@@ -22,17 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let score = 0;
   let paresRestantes = 0;
-
   let firstCard = null;
   let secondCard = null;
   let lockBoard = false;
 
   function iniciarJuego(dificultad) {
+    if(!dificultad) return; // evita iniciar sin dificultad
     let emojis = [];
     if (dificultad === "facil") {
-      emojis = ['🍎','🍌','🍇','🍉'];         
+      emojis = ['🍎','🍌','🍇','🍉'];
     } else if (dificultad === "medio") {
-      emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝']; 
+      emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝'];
     } else if (dificultad === "dificil") {
       emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝','🥥','🥭','🍑','🍐'];
     }
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("menu-dificultad").style.display = "none";
     seconds = 0;
-    if (timerInterval) clearInterval(timerInterval);
+    if(timerInterval) clearInterval(timerInterval);
     startTimer();
   }
 
@@ -87,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreElement.textContent = score;
     paresElement.textContent = paresRestantes;
 
-    // Condición de victoria
     if (paresRestantes === 0) {
       clearInterval(timerInterval);
       mostrarVictoria();
@@ -104,45 +103,45 @@ document.addEventListener('DOMContentLoaded', () => {
     lockBoard = false;
   }
 
-  // Botones de dificultad
+  // ===== BOTONES DE DIFICULTAD =====
   const botones = document.querySelectorAll(".btn-dif");
+  const menudif = document.getElementById('menu-dificultad');
   botones.forEach(btn => {
     btn.addEventListener("click", () => {
-      const dificultad = btn.dataset.dif;
-      difactual = dificultad;
-      iniciarJuego(dificultad);
+      difactual = btn.dataset.dif;
+      iniciarJuego(difactual);
     });
   });
 
-  // Botón reiniciar
-  document.getElementById('btnReiniciar').addEventListener("click", () => {
-    iniciarJuego(difactual);
-  });
-
-  // Botón mostrar menú dificultad
-  const menudif = document.getElementById('menu-dificultad');
+  // Mostrar menú de dificultad
   document.getElementById('btnDificultad').addEventListener("click", () => {
     menudif.style.display = "flex";
   });
 
-  // Botón salir
+  // Reiniciar juego
+  document.getElementById('btnReiniciar').addEventListener("click", () => {
+    iniciarJuego(difactual);
+  });
+
+  // Salir
   document.getElementById('btnSalir').addEventListener("click", () => {
     if(timerInterval) clearInterval(timerInterval);
+    reiniciarJuego();
+    menudif.style.display = "flex";
+  });
 
+  function reiniciarJuego() {
     board.innerHTML = "";
     scoreElement.textContent = 0;
     paresElement.textContent = 0;
     timerElement.textContent = "00:00";
-
-    menudif.style.display = "flex";
-
     score = 0;
     paresRestantes = 0;
     seconds = 0;
     firstCard = null;
     secondCard = null;
     lockBoard = false;
-  });
+  }
 
   // ===== MODAL DE VICTORIA =====
   const victoryModal = document.getElementById("victoryModal");
@@ -168,20 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Salir desde modal victoria
   btnSalirVictory.addEventListener("click", () => {
     victoryModal.style.display = "none";
-
-    if(timerInterval) clearInterval(timerInterval);
-    board.innerHTML = "";
-    scoreElement.textContent = 0;
-    paresElement.textContent = 0;
-    timerElement.textContent = "00:00";
-
-    score = 0;
-    paresRestantes = 0;
-    seconds = 0;
-    firstCard = null;
-    secondCard = null;
-    lockBoard = false;
-
+    reiniciarJuego();
     menudif.style.display = "flex";
   });
 
