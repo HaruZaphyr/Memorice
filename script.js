@@ -28,13 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
   let lockBoard = false;
 
   function iniciarJuego(dificultad) { //Dependiendo de la dificultad se agregan mas o menos pares lowkey
+    let flipTimeout = 1000;   // tiempo para voltear de nuevo
+    let penalizacionFallos = 0; // puntos a restar si falla
+
     let emojis = [];
-    if (dificultad === "facil") {
-      emojis = ['🍎','🍌','🍇','🍉'];         // 4 pares
-    } else if (dificultad === "medio") {
-      emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝']; // 8 pares
-    } else if (dificultad === "dificil") {
-      emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝','🥥','🥭','🍑','🍐']; // 12 pares
+    if(dificultad === "facil") {
+      emojis = ['🍎','🍌','🍇','🍉'];
+      flipTimeout = 1000;
+      penalizacionFallos = 0;
+    } else if(dificultad === "medio") {
+      emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝'];
+      flipTimeout = 800;
+      penalizacionFallos = 2;
+    } else if(dificultad === "dificil") {
+      emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝','🥥','🥭','🍑','🍐'];
+      flipTimeout = 500;
+      penalizacionFallos = 5;
     }
 
     // Reiniciar tablero
@@ -77,12 +86,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstSymbol = firstCard.querySelector('.card-front').textContent;
     const secondSymbol = secondCard.querySelector('.card-front').textContent;
 
-    if (firstSymbol === secondSymbol) {
-      score += 10;
-      paresRestantes--;
-      resetCards(true);
+    if(firstSymbol !== secondSymbol) {
+    setTimeout(() => resetCards(false), flipTimeout);
     } else {
-      setTimeout(() => resetCards(false), 1000);
+      resetCards(true);
     }
 
     scoreElement.textContent = score;
@@ -90,13 +97,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function resetCards(match) {
-    if (!match) {
-      firstCard.classList.remove('is-flipped');
-      secondCard.classList.remove('is-flipped');
-    }
-    firstCard = null;
-    secondCard = null;
-    lockBoard = false;
+    if(!match) {
+    firstCard.classList.remove('is-flipped');
+    secondCard.classList.remove('is-flipped');
+    // Mezclar cartas visibles (medio y difícil)
+      if(paresRestantes > 0 && (difactual === 'medio' || difactual === 'dificil')){
+        let cardsArray = Array.from(board.children);
+        cardsArray.sort(() => Math.random() - 0.5);
+        board.innerHTML = '';
+        cardsArray.forEach(c => board.appendChild(c));
+      }
+      // Restar puntos en difícil
+      if(difactual === 'dificil') {
+        score = Math.max(0, score - penalizacionFallos);
+        scoreElement.textContent = score;
+      }
+  }
+
   }
 
   const botones = document.querySelectorAll(".btn-dif"); //Escucha que boton elegiste
