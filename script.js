@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     paresElement.textContent = 0;
     timerElement.textContent = "00:00";
 
-    menudif.style.display = "flex";
+    pantallainicial.style.display = "flex";
 
     score = 0;
     paresRestantes = 0;
@@ -136,5 +136,12 @@ document.addEventListener('DOMContentLoaded', () => {
     firstCard = null;
     secondCard = null;
     lockBoard = false;
+  });
+  const pantallainicial = document.getElementById("pantalla-inicial");
+  const btnPlay = document.getElementById("btnPlay");
+
+  btnPlay.addEventListener("click", () =>{
+    pantallainicial.style.display = "none";
+    menudif.style.display = "flex";
   });
 });
