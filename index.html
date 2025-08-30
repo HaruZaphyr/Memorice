@@ -4,7 +4,7 @@
   <meta charset="UTF-8"> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memorice</title>
-  <link rel="icon" href="assets\logo.png">
+  <link rel="icon" href="assets/logo.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -50,26 +50,27 @@
       </div>
     </button>
   </template>
-  <div id="menu-dificultad" class="menu-dificultad">
-  <div class="menu-content">
-    <h2>Selecciona la dificultad</h2>
-    <button class="btn-dif" data-dif="facil">Fácil</button>
-    <button class="btn-dif" data-dif="medio">Medio</button>
-    <button class="btn-dif" data-dif="dificil">Difícil</button>
-  </div>
 
-    <!-- Modal Victoria -->
-  <div id="victoryModal" class="modal">
-    <div class="modal-content">
-      <h2>¡Ganaste! 🎉</h2>
-      <p id="victoryScore"></p>
-      <p id="victoryTime"></p>
-      <button id="playAgain">Volver a Jugar</button>
-      <button id="goMenu">Salir al Menú</button>
+  <!-- Menu dificultad -->
+  <div id="menu-dificultad" class="menu-dificultad">
+    <div class="menu-content">
+      <h2>Selecciona la dificultad</h2>
+      <button class="btn-dif" data-dif="facil">Fácil</button>
+      <button class="btn-dif" data-dif="medio">Medio</button>
+      <button class="btn-dif" data-dif="dificil">Difícil</button>
     </div>
   </div>
 
-</div>
+  <!-- Modal Victoria -->
+  <div id="victoryModal" class="modal">
+    <div class="modal-content">
+      <h2>¡Felicidades!</h2>
+      <p id="victoryScore"></p>
+      <p id="victoryTime"></p>
+      <button id="btnPlayAgain">Volver a jugar</button>
+    </div>
+  </div>
+
   <script src="script.js"></script>
 </body>
 </html>
