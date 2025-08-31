@@ -115,12 +115,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if(difactual === "dificil") {
         setTimeout(() => {
-          const cardsArray = Array.from(board.children);
-          cardsArray.forEach(c => board.removeChild(c));
-          cardsArray.sort(() => Math.random() - 0.5)
-                    .forEach(c => board.appendChild(c));
+          // Voltear todas las cartas antes de reordenar
+          board.querySelectorAll('.card').forEach(c => c.classList.remove('is-flipped'));
+      
+          // Obtener los emojis actuales
+          const emojisCurrent = Array.from(board.children).map(c => c.querySelector('.card-front').textContent);
+      
+          // Mezclar los emojis
+          const shuffledEmojis = [...emojisCurrent].sort(() => Math.random() - 0.5);
+      
+          // Asignar nuevamente a cada carta
+          const cards = Array.from(board.children);
+          cards.forEach((c, i) => c.querySelector('.card-front').textContent = shuffledEmojis[i]);
+      
+          // Resetear el tablero
+          firstCard = null;
+          secondCard = null;
+          lockBoard = false;
         }, 1000);
       }
+
 
       setTimeout(()=> resetCards(false), 1000);
     }
