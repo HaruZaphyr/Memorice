@@ -1,8 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   let difactual = null;
-  let seconds = 0;
+  let timeLeft = 0;   // tiempo restante
   let timerInterval = null;
-  let timeLimit = null; // límite de tiempo según dificultad
 
   // ELEMENTOS DOM
   const timerElement = document.getElementById('contador');
@@ -29,18 +28,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // TIMER
   function startTimer() {
+    actualizarTimer();
     timerInterval = setInterval(() => {
-      seconds++;
-      const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60).padStart(2, '0');
-      timerElement.textContent = `${min}:${sec}`;
+      timeLeft--;
+      actualizarTimer();
 
-      // revisar límite de tiempo
-      if (timeLimit && seconds >= timeLimit) {
+      if (timeLeft <= 0) {
         clearInterval(timerInterval);
         mostrarDerrota();
       }
     }, 1000);
+  }
+
+  function actualizarTimer() {
+    const min = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+    const sec = String(timeLeft % 60).padStart(2, '0');
+    timerElement.textContent = `${min}:${sec}`;
   }
 
   function reiniciarJuego() {
@@ -48,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     board.innerHTML = "";
     score = 0;
     paresRestantes = 0;
-    seconds = 0;
+    timeLeft = 0;
     firstCard = null;
     secondCard = null;
     lockBoard = false;
@@ -59,16 +62,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // INICIAR JUEGO
   function iniciarJuego(dificultad) {
-    if(!dificultad) return;
+    if (!dificultad) return;
 
-    // asignar límite de tiempo
-    if(dificultad === "facil") timeLimit = null;
-    else if(dificultad === "medio") timeLimit = 120;
-    else if(dificultad === "dificil") timeLimit = 90;
+    // tiempo inicial por dificultad
+    if (dificultad === "facil") timeLeft = 180;
+    else if (dificultad === "medio") timeLeft = 120;
+    else if (dificultad === "dificil") timeLeft = 90;
 
     let emojis = [];
-    if(dificultad==="facil") emojis = ['🍎','🍌','🍇','🍉'];
-    else if(dificultad==="medio") emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝'];
+    if (dificultad === "facil") emojis = ['🍎','🍌','🍇','🍉'];
+    else if (dificultad === "medio") emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝'];
     else emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝','🥥','🥭','🍑','🍐'];
 
     board.innerHTML = "";
@@ -79,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
     lockBoard = false;
     scoreElement.textContent = score;
     paresElement.textContent = paresRestantes;
-    seconds = 0;
 
     const cardsSymbols = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
 
@@ -88,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const front = card.querySelector('.card-front');
       front.textContent = sym;
 
-      card.classList.remove('is-flipped', 'matched'); // resetear clases
+      card.classList.remove('is-flipped', 'matched');
       card.addEventListener('click', () => flipCard(card));
       board.appendChild(card);
     });
@@ -96,16 +98,16 @@ document.addEventListener('DOMContentLoaded', () => {
     menudif.style.display = "none";
     pantallainicial.style.display = "none";
 
-    if(timerInterval) clearInterval(timerInterval);
+    if (timerInterval) clearInterval(timerInterval);
     startTimer();
   }
 
   // LÓGICA CARTAS
   function flipCard(card) {
-    if(lockBoard || card.classList.contains('is-flipped') || card.classList.contains('matched')) return;
+    if (lockBoard || card.classList.contains('is-flipped') || card.classList.contains('matched')) return;
 
     card.classList.add('is-flipped');
-    if(!firstCard){ firstCard = card; return; }
+    if (!firstCard) { firstCard = card; return; }
 
     secondCard = card;
     lockBoard = true;
@@ -113,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstSym = firstCard.querySelector('.card-front').textContent;
     const secondSym = secondCard.querySelector('.card-front').textContent;
 
-    if(firstSym === secondSym){
+    if (firstSym === secondSym) {
       score += 100;
       paresRestantes--;
 
@@ -122,16 +124,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
       resetCards(true);
     } else {
-      if(difactual === "medio" || difactual === "dificil") {
+      // Penalizaciones según dificultad
+      if (difactual === "medio" || difactual === "dificil") {
         score = Math.max(0, score - 2);
+        timeLeft = Math.max(0, timeLeft - 5); // penaliza 5 seg
+        actualizarTimer();
       }
 
       setTimeout(() => {
         firstCard.classList.remove('is-flipped');
         secondCard.classList.remove('is-flipped');
 
-        if(difactual === "dificil") {
-          // Solo reordenar cartas no acertadas
+        if (difactual === "dificil") {
+          // Reordenar solo cartas no acertadas
           const cardsToShuffle = Array.from(board.children)
             .filter(c => !c.classList.contains('matched'));
 
@@ -153,14 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
     scoreElement.textContent = score;
     paresElement.textContent = paresRestantes;
 
-    if(paresRestantes===0){
+    if (paresRestantes === 0) {
       clearInterval(timerInterval);
       mostrarVictoria();
     }
   }
 
-  function resetCards(match){
-    if(!match){
+  function resetCards(match) {
+    if (!match) {
       firstCard.classList.remove('is-flipped');
       secondCard.classList.remove('is-flipped');
     }
@@ -170,28 +175,28 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // MENÚ DIFICULTAD
-  document.querySelectorAll(".btn-dif").forEach(btn=>{
-    btn.addEventListener("click", ()=> {
+  document.querySelectorAll(".btn-dif").forEach(btn => {
+    btn.addEventListener("click", () => {
       difactual = btn.dataset.dif;
       iniciarJuego(difactual);
     });
   });
 
-  document.getElementById('btnDificultad').addEventListener("click", ()=> menudif.style.display="flex");
-  document.getElementById('btnReiniciar').addEventListener("click", ()=> iniciarJuego(difactual));
-  btnsalir.addEventListener("click", ()=>{
-    if(timerInterval) clearInterval(timerInterval);
+  document.getElementById('btnDificultad').addEventListener("click", () => menudif.style.display = "flex");
+  document.getElementById('btnReiniciar').addEventListener("click", () => iniciarJuego(difactual));
+  btnsalir.addEventListener("click", () => {
+    if (timerInterval) clearInterval(timerInterval);
     reiniciarJuego();
     pantallainicial.style.display = "flex";
     menudif.style.display = "none";
   });
 
   // MODAL VICTORIA
-  function mostrarVictoria(){
+  function mostrarVictoria() {
     victoryScore.textContent = `Puntaje: ${score}`;
-    const min = Math.floor(seconds/60);
-    const sec = seconds%60;
-    victoryTime.textContent = `Tiempo: ${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    const min = Math.floor(timeLeft / 60);
+    const sec = timeLeft % 60;
+    victoryTime.textContent = `Tiempo restante: ${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
     victoryModal.style.display = "flex";
   }
 
@@ -202,19 +207,19 @@ document.addEventListener('DOMContentLoaded', () => {
     victoryModal.style.display = "flex";
   }
 
-  btnPlayAgain.addEventListener("click", ()=>{
+  btnPlayAgain.addEventListener("click", () => {
     victoryModal.style.display = "none";
     menudif.style.display = "flex";
   });
 
-  btnSalirVictory.addEventListener("click", ()=>{
+  btnSalirVictory.addEventListener("click", () => {
     victoryModal.style.display = "none";
     reiniciarJuego();
     pantallainicial.style.display = "flex";
   });
 
   // BOTÓN PLAY INICIAL
-  btnPlay.addEventListener("click", ()=>{
+  btnPlay.addEventListener("click", () => {
     pantallainicial.style.display = "none";
     menudif.style.display = "flex";
   });
