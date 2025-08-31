@@ -74,26 +74,35 @@ document.addEventListener('DOMContentLoaded', () => {
     board.innerHTML = "";
     score = 0;
     paresRestantes = emojis.length;
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
     scoreElement.textContent = score;
     paresElement.textContent = paresRestantes;
+    seconds = 0;
 
-    const cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
-    cards.forEach(sym => {
+    const cardsSymbols = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+
+    cardsSymbols.forEach(sym => {
       const card = template.content.firstElementChild.cloneNode(true);
-      card.querySelector('.card-front').textContent = sym;
+      const front = card.querySelector('.card-front');
+      front.textContent = sym;
+
+      card.classList.remove('is-flipped', 'matched'); // resetear clases
       card.addEventListener('click', () => flipCard(card));
       board.appendChild(card);
     });
 
     menudif.style.display = "none";
-    seconds = 0;
+    pantallainicial.style.display = "none";
+
     if(timerInterval) clearInterval(timerInterval);
     startTimer();
   }
 
   // LÓGICA CARTAS
   function flipCard(card) {
-    if(lockBoard || card.classList.contains('is-flipped')) return;
+    if(lockBoard || card.classList.contains('is-flipped') || card.classList.contains('matched')) return;
 
     card.classList.add('is-flipped');
     if(!firstCard){ firstCard = card; return; }
@@ -107,43 +116,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if(firstSym === secondSym){
       score += 100;
       paresRestantes--;
+
+      firstCard.classList.add('matched');
+      secondCard.classList.add('matched');
+
       resetCards(true);
     } else {
-      // Penalización por fallo
       if(difactual === "medio" || difactual === "dificil") {
         score = Math.max(0, score - 2);
       }
-    
-      // Esperar 1 segundo antes de voltear y reordenar
+
       setTimeout(() => {
-        // Voltear las dos cartas fallidas
         firstCard.classList.remove('is-flipped');
         secondCard.classList.remove('is-flipped');
-    
-        // Reordenar solo si es difícil
+
         if(difactual === "dificil") {
-          // Tomar solo cartas NO acertadas
+          // Solo reordenar cartas no acertadas
           const cardsToShuffle = Array.from(board.children)
-            .filter(c => !c.classList.contains('is-flipped'));
-    
+            .filter(c => !c.classList.contains('matched'));
+
           const emojisToShuffle = cardsToShuffle
             .map(c => c.querySelector('.card-front').textContent)
             .sort(() => Math.random() - 0.5);
-    
-          // Asignar nuevo orden solo a cartas no acertadas
+
           cardsToShuffle.forEach((c, i) => {
             c.querySelector('.card-front').textContent = emojisToShuffle[i];
           });
         }
-    
-        // Resetear referencias
+
         firstCard = null;
         secondCard = null;
         lockBoard = false;
-    
       }, 1000);
     }
-
 
     scoreElement.textContent = score;
     paresElement.textContent = paresRestantes;
@@ -214,3 +219,4 @@ document.addEventListener('DOMContentLoaded', () => {
     menudif.style.display = "flex";
   });
 });
+
