@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnPlay = document.getElementById("btnPlay");
 
   // Modales
-  const victoryModal = document.getElementById("victoryModal");
+  const victoryModal = document.getElementById("victoryModal"); 
   const victoryScore = document.getElementById("victoryScore");
   const victoryTime = document.getElementById("victoryTime");
   const btnPlayAgain = document.getElementById("btnPlayAgain");
