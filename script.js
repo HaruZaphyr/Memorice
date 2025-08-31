@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnsalir = document.getElementById('btnSalir');
 
   // VARIABLES JUEGO
-  let score = 0;
+  let score = 1500;
   let paresRestantes = 0;
   let firstCard = null;
   let secondCard = null;
@@ -74,9 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!dificultad) return;
 
     // tiempo inicial por dificultad
-    if (dificultad === "facil") timeLeft = 180;
+    if (dificultad === "facil") timeLeft = 240;
     else if (dificultad === "medio") timeLeft = 120;
-    else if (dificultad === "dificil") timeLeft = 90;
+    else if (dificultad === "dificil") timeLeft = 60;
 
     let emojis = [];
     if (dificultad === "facil") emojis = ['🍎','🍌','🍇','🍉'];
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const secondSym = secondCard.querySelector('.card-front').textContent;
 
     if (firstSym === secondSym) {
-      score += 100;
+      score += 125;
       paresRestantes--;
 
       firstCard.classList.add('matched');
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       // Penalizaciones según dificultad
       if (difactual === "medio" || difactual === "dificil") {
-        score = Math.max(0, score - 2);
+        score = Math.max(0, score - 20);
         timeLeft = Math.max(0, timeLeft - 5); // penaliza 5 seg
         actualizarTimer();
       }
