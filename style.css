@@ -289,14 +289,14 @@ body {
   padding: 8px 15px;
   border: none;
   border-radius: 8px;
-  background: #4caf50;
-  color: white;
+  background-color: #6a0dad !important;
+  color: white !important;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .modal-content button:hover {
-  background: #45a049;
+  background-color: #4B0082 !important;
 }
 
 /* Animación entrada */
