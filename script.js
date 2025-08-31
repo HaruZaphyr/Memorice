@@ -12,11 +12,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const menudif = document.getElementById('menu-dificultad');
   const pantallainicial = document.getElementById("pantalla-inicial");
   const btnPlay = document.getElementById("btnPlay");
+
+  // Modales
   const victoryModal = document.getElementById("victoryModal");
   const victoryScore = document.getElementById("victoryScore");
   const victoryTime = document.getElementById("victoryTime");
   const btnPlayAgain = document.getElementById("btnPlayAgain");
   const btnSalirVictory = document.getElementById("btnSalirVictory");
+
+  const defeatModal = document.getElementById("defeatModal");
+  const defeatScore = document.getElementById("defeatScore");
+  const btnReintentar = document.getElementById("btnReintentar");
+  const btnSalirDefeat = document.getElementById("btnSalirDefeat");
+
   const btnsalir = document.getElementById('btnSalir');
 
   // VARIABLES JUEGO
@@ -202,11 +210,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // MODAL DERROTA
   function mostrarDerrota() {
-    victoryScore.textContent = `Puntaje: ${score}`;
-    victoryTime.textContent = `Tiempo agotado`;
-    victoryModal.style.display = "flex";
+    defeatScore.textContent = `Puntaje: ${score}`;
+    defeatModal.style.display = "flex";
   }
 
+  // Eventos modales
   btnPlayAgain.addEventListener("click", () => {
     victoryModal.style.display = "none";
     menudif.style.display = "flex";
@@ -218,10 +226,20 @@ document.addEventListener('DOMContentLoaded', () => {
     pantallainicial.style.display = "flex";
   });
 
+  btnReintentar.addEventListener("click", () => {
+    defeatModal.style.display = "none";
+    menudif.style.display = "flex";
+  });
+
+  btnSalirDefeat.addEventListener("click", () => {
+    defeatModal.style.display = "none";
+    reiniciarJuego();
+    pantallainicial.style.display = "flex";
+  });
+
   // BOTÓN PLAY INICIAL
   btnPlay.addEventListener("click", () => {
     pantallainicial.style.display = "none";
     menudif.style.display = "flex";
   });
 });
-
