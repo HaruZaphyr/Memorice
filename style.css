@@ -1,15 +1,14 @@
-/* ================= PANTALLA INICIAL ================= */
 .pantalla-inicial {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #4B0082, #6a0dad);
+  background: linear-gradient(135deg, #4B0082, #6a0dad); /* degradado morado */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 10000;
+  z-index: 10000; /* encima de todo */
 }
 
 .pantalla-content {
@@ -23,10 +22,14 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  z-index: -1;
+  object-fit: cover; /* que el video cubra toda la pantalla */
+  z-index: -1;       /* se pone detrás del contenido */
+}
+
+#video-fondo {
   filter: brightness(60%);
 }
+
 
 .pantalla-content h1 {
   font-size: 3rem;
@@ -48,25 +51,27 @@
   background: #4B0082;
 }
 
-/* ================= RESET ================= */
+/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: Arial, sans-serif;
+   
 }
 
+/* BODY */
 body {
   background: #f0f0f5;
   color: #000;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 .game-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4B0082;
+  background-color: #4B0082; /* púrpura oscuro */
   padding: 10px 20px;
 }
 
@@ -84,7 +89,7 @@ body {
   font-size: 1.5rem;
   font-weight: bold;
   color: white;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.1); /* transparente */
   padding: 5px 10px;
   border-radius: 5px;
 }
@@ -110,78 +115,39 @@ body {
   background: #6a0dad;
 }
 
-/* ================= MAIN ================= */
+/* MAIN */
 .game-main {
   display: flex;
   gap: 20px;
   padding: 20px;
 }
 
-/* ================= PANEL LATERAL ================= */
+/* PANEL LATERAL */
 .panel-info {
-  width: 220px;                  /* ancho fijo para consistencia */
+  width: 200px;
   background: #6a0dad;
   padding: 15px;
   border-radius: 10px;
   color: white;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;                     /* separación vertical */
   flex-shrink: 0;
 }
 
 .panel-info h3 {
-  margin: 0;
-  font-size: 1.1rem;
+  margin-bottom: 15px;
 }
 
-/* Pares restantes */
-#pares {
-  display: inline-block;
-  max-height: 50px;
-  overflow-y: auto;
-}
-
-/* Cuadro de puntajes */
-#highScores {
-  margin-left: 10px;             /* margen desde el borde izquierdo */
-  padding: 10px;
-  border: 2px solid #fff;
-  border-radius: 8px;
-  background-color: rgba(0,0,0,0.5);
-  color: #fff;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-#highScores h3 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
-  text-align: center;
-}
-
-#highScores ol {
-  margin: 0;
-  padding-left: 20px;
-}
-
-#highScores li {
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-/* ================= TABLERO DE CARTAS ================= */
+/* TABLERO DE CARTAS */
 .board {
-  flex: 1;
+  flex: 1;                  /* ocupar espacio restante */
   display: grid;
   grid-template-columns: repeat(4, 100px);
   gap: 15px;
   justify-content: center;
   margin-top: 20px;
-  margin-left: -200px;
+ margin-left: -200px;
 }
 
-/* ================= CARTAS ================= */
+/* CARTAS */
 .card {
   perspective: 1000px;
   border: none;
@@ -194,7 +160,7 @@ body {
   width: 100px;
   height: 120px;
   transform-style: preserve-3d;
-  transition: transform 0.6s;
+  transition: transform 0.3s;
 }
 
 .card.is-flipped .card-inner {
@@ -224,14 +190,13 @@ body {
   transform: rotateY(180deg);
 }
 
-/* ================= MENÚ DIFICULTAD ================= */
 .menu-dificultad {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.7);   /* fondo oscuro */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -263,8 +228,8 @@ body {
 .menu-content .btn-dif:hover {
   background: #4B0082;
 }
+ /* pruebas para el cuadro emergente*/
 
-/* ================= MODALES ================= */
 .modal {
   display: none;
   position: fixed;
@@ -278,6 +243,7 @@ body {
   align-items: center;
 }
 
+/* Caja central */
 .modal-content {
   background: #fff;
   padding: 20px 30px;
@@ -307,7 +273,9 @@ body {
   background: #45a049;
 }
 
+/* Animación entrada */
 @keyframes zoomIn {
   from { transform: scale(0.5); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
