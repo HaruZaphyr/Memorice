@@ -1,12 +1,12 @@
-.panel-info {
+.panel-info2 {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  max-height: 90vh; /* máximo 90% de la altura de la ventana */
-  overflow-y: auto; /* agrega scroll si se supera el alto */
-  padding: 10px;
-  background-color: rgba(0,0,0,0.3);
-  border-radius: 8px;
+  width: 200px;
+  background: #6a0dad;
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
 }
 #highScores {
   position: sticky;
@@ -143,6 +143,7 @@ body {
   display: flex;
   gap: 20px;
   padding: 20px;
+  align-items: flex-start;
 }
 
 /* PANEL LATERAL */
@@ -153,6 +154,10 @@ body {
   border-radius: 10px;
   color: white;
   flex-shrink: 0;
+  height: calc(60vh - 80px); /* ocupa toda la altura visible menos header */
+  overflow-y: auto;           /* scroll si el contenido es mucho */
+  position: sticky;
+  top: 80px; /* se queda fijo debajo del header */
 }
 
 .panel-info h3 {
@@ -167,7 +172,7 @@ body {
   gap: 15px;
   justify-content: center;
   margin-top: 20px;
- margin-left: -200px;
+ margin-right: -20px;
 }
 
 /* CARTAS */
