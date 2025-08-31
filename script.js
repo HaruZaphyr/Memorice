@@ -122,10 +122,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
         // Reordenar solo si es difícil
         if(difactual === "dificil") {
-          const cards = Array.from(board.children);
-          const emojisCurrent = cards.map(c => c.querySelector('.card-front').textContent);
-          const shuffledEmojis = [...emojisCurrent].sort(() => Math.random() - 0.5);
-          cards.forEach((c, i) => c.querySelector('.card-front').textContent = shuffledEmojis[i]);
+          // Tomar solo cartas NO acertadas
+          const cardsToShuffle = Array.from(board.children)
+            .filter(c => !c.classList.contains('is-flipped'));
+    
+          const emojisToShuffle = cardsToShuffle
+            .map(c => c.querySelector('.card-front').textContent)
+            .sort(() => Math.random() - 0.5);
+    
+          // Asignar nuevo orden solo a cartas no acertadas
+          cardsToShuffle.forEach((c, i) => {
+            c.querySelector('.card-front').textContent = emojisToShuffle[i];
+          });
         }
     
         // Resetear referencias
