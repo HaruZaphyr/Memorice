@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const paresElement = document.getElementById('pares');
   const menudif = document.getElementById('menu-dificultad');
   const pantallainicial = document.getElementById("pantalla-inicial");
-  const btnPlay = document.getElementById("btnPlay"); 
+  const btnPlay = document.getElementById("btnPlay");
 
   // Modales
   const victoryModal = document.getElementById("victoryModal");
@@ -274,4 +274,3 @@ function mostrarPuntajes() {
 document.addEventListener("DOMContentLoaded", () => {
   mostrarPuntajes();
 });
-
