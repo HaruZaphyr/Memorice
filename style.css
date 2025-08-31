@@ -121,58 +121,21 @@ body {
   gap: 20px;
   padding: 20px;
 }
-/*------------------------------------*//*------------------------------------*/
+
+/* PANEL LATERAL */
 .panel-info {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 90vh;        /* altura máxima del panel */
-  padding: 10px;
-  background-color: rgba(0,0,0,0.3);
-  border-radius: 8px;
+  width: 200px;
+  background: #6a0dad;
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  flex-shrink: 0;
 }
 
-.info-item {
-  flex-shrink: 0;          /* no crece con contenido dinámico */
+.panel-info h3 {
+  margin-bottom: 15px;
 }
 
-/* Pares restantes */
-#pares {
-  display: inline-block;
-  max-height: 50px;        /* evita que crezca demasiado */
-  overflow-y: auto;
-}
-
-/* Lista de puntajes */
-#highScores {
-  flex-grow: 1;            /* ocupa el espacio restante */
-  overflow-y: auto;        /* scroll si hay muchos puntajes */
-  margin-top: 10px;
-  padding: 10px;
-  border: 2px solid #fff;
-  border-radius: 8px;
-  background-color: rgba(0,0,0,0.5);
-  color: #fff;
-}
-
-#highScores h3 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
-  text-align: center;
-}
-
-#highScores ol {
-  margin: 0;
-  padding-left: 20px;
-}
-
-#highScores li {
-  margin-bottom: 5px;
-  font-size: 14px;
-}
-
-
-/*------------------------------------*//*------------------------------------*/
 /* TABLERO DE CARTAS */
 .board {
   flex: 1;                  /* ocupar espacio restante */
