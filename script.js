@@ -97,6 +97,21 @@ document.addEventListener('DOMContentLoaded', () => {
       paresRestantes--;
       resetCards(true);
     } else {
+      // Penalización según dificultad
+      if(difactual === "medio" || difactual === "dificil") {
+        score = Math.max(0, score - 2);
+      }
+
+      // Reordenar cartas al fallar si es difícil
+      if(difactual === "dificil") {
+        setTimeout(() => {
+          const cardsArray = Array.from(board.children);
+          cardsArray.forEach(c => board.removeChild(c));
+          cardsArray.sort(() => Math.random() - 0.5)
+                    .forEach(c => board.appendChild(c));
+        }, 1000);
+      }
+
       setTimeout(()=> resetCards(false), 1000);
     }
 
@@ -147,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   btnPlayAgain.addEventListener("click", ()=>{
     victoryModal.style.display = "none";
-    menudif.style.display = "flex"; // abrir menú para nueva partida
+    menudif.style.display = "flex";
   });
 
   btnSalirVictory.addEventListener("click", ()=>{
@@ -162,4 +177,3 @@ document.addEventListener('DOMContentLoaded', () => {
     menudif.style.display = "flex";
   });
 });
-
