@@ -200,20 +200,20 @@ document.addEventListener('DOMContentLoaded', () => {
     menudif.style.display = "none";
   });
 
-  // MODAL VICTORIA
   function mostrarVictoria() {
-    victoryScore.textContent = `Puntaje: ${score}`;
-    const min = Math.floor(timeLeft / 60);
-    const sec = timeLeft % 60;
-    victoryTime.textContent = `Tiempo restante: ${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-    victoryModal.style.display = "flex";
-  }
+  guardarPuntaje(score);
+  victoryScore.textContent = `Puntaje: ${score}`;
+  const min = Math.floor(timeLeft / 60);
+  const sec = timeLeft % 60;
+  victoryTime.textContent = `Tiempo restante: ${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  victoryModal.style.display = "flex";
+}
 
-  // MODAL DERROTA
-  function mostrarDerrota() {
-    defeatScore.textContent = `Puntaje: ${score}`;
-    defeatModal.style.display = "flex";
-  }
+function mostrarDerrota() {
+  guardarPuntaje(score);
+  defeatScore.textContent = `Puntaje: ${score}`;
+  defeatModal.style.display = "flex";
+}
 
   // Eventos modales
   btnPlayAgain.addEventListener("click", () => {
@@ -244,3 +244,34 @@ document.addEventListener('DOMContentLoaded', () => {
     menudif.style.display = "flex";
   });
 });
+
+
+
+/*----------------------------------- panel de mrda */
+// Guardar un puntaje en localStorage
+function guardarPuntaje(puntos) {
+  let highScores = JSON.parse(localStorage.getItem("memoriceScores")) || [];
+  highScores.push(puntos);
+  highScores.sort((a, b) => b - a); // ordenar descendente
+  highScores = highScores.slice(0, 5); // solo guardar top 5
+  localStorage.setItem("memoriceScores", JSON.stringify(highScores));
+  mostrarPuntajes();
+}
+
+// Mostrar puntajes en el panel
+function mostrarPuntajes() {
+  const scoreList = document.getElementById("scoreList");
+  const highScores = JSON.parse(localStorage.getItem("memoriceScores")) || [];
+  scoreList.innerHTML = "";
+  highScores.forEach(score => {
+    const li = document.createElement("li");
+    li.textContent = score;
+    scoreList.appendChild(li);
+  });
+}
+
+// Inicializar puntajes al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+  mostrarPuntajes();
+});
+
