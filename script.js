@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const defeatModal = document.getElementById("defeatModal");
   const defeatScore = document.getElementById("defeatScore");
+  console.log("defeatScore:", defeatScore);
   const btnReintentar = document.getElementById("btnReintentar");
   const btnSalirDefeat = document.getElementById("btnSalirDefeat");
 
