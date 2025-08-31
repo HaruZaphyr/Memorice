@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let difactual = null;
   let seconds = 0;
   let timerInterval = null;
+  let timeLimit = null; // límite de tiempo según dificultad
 
   // ELEMENTOS DOM
   const timerElement = document.getElementById('contador');
@@ -29,10 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // TIMER
   function startTimer() {
     timerInterval = setInterval(() => {
+      seconds++;
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
       const sec = String(seconds % 60).padStart(2, '0');
       timerElement.textContent = `${min}:${sec}`;
-      seconds++;
+
+      // revisar límite de tiempo
+      if (timeLimit && seconds >= timeLimit) {
+        clearInterval(timerInterval);
+        mostrarDerrota();
+      }
     }, 1000);
   }
 
@@ -53,6 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // INICIAR JUEGO
   function iniciarJuego(dificultad) {
     if(!dificultad) return;
+
+    // asignar límite de tiempo
+    if(dificultad === "facil") timeLimit = null;
+    else if(dificultad === "medio") timeLimit = 120;
+    else if(dificultad === "dificil") timeLimit = 90;
 
     let emojis = [];
     if(dificultad==="facil") emojis = ['🍎','🍌','🍇','🍉'];
@@ -97,12 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
       paresRestantes--;
       resetCards(true);
     } else {
-      // Penalización según dificultad
       if(difactual === "medio" || difactual === "dificil") {
         score = Math.max(0, score - 2);
       }
 
-      // Reordenar cartas al fallar si es difícil
       if(difactual === "dificil") {
         setTimeout(() => {
           const cardsArray = Array.from(board.children);
@@ -157,6 +167,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const min = Math.floor(seconds/60);
     const sec = seconds%60;
     victoryTime.textContent = `Tiempo: ${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    victoryModal.style.display = "flex";
+  }
+
+  // MODAL DERROTA
+  function mostrarDerrota() {
+    victoryScore.textContent = `Puntaje: ${score}`;
+    victoryTime.textContent = `Tiempo agotado`;
     victoryModal.style.display = "flex";
   }
 
