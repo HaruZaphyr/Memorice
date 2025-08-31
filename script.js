@@ -105,39 +105,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const secondSym = secondCard.querySelector('.card-front').textContent;
 
     if(firstSym === secondSym){
-      score += 10;
+      score += 100;
       paresRestantes--;
       resetCards(true);
     } else {
+      // Penalización por fallo
       if(difactual === "medio" || difactual === "dificil") {
         score = Math.max(0, score - 2);
       }
-
-      if(difactual === "dificil") {
-        setTimeout(() => {
-          // Voltear todas las cartas antes de reordenar
-          board.querySelectorAll('.card').forEach(c => c.classList.remove('is-flipped'));
-      
-          // Obtener los emojis actuales
-          const emojisCurrent = Array.from(board.children).map(c => c.querySelector('.card-front').textContent);
-      
-          // Mezclar los emojis
-          const shuffledEmojis = [...emojisCurrent].sort(() => Math.random() - 0.5);
-      
-          // Asignar nuevamente a cada carta
+    
+      // Esperar 1 segundo antes de voltear y reordenar
+      setTimeout(() => {
+        // Voltear las dos cartas fallidas
+        firstCard.classList.remove('is-flipped');
+        secondCard.classList.remove('is-flipped');
+    
+        // Reordenar solo si es difícil
+        if(difactual === "dificil") {
           const cards = Array.from(board.children);
+          const emojisCurrent = cards.map(c => c.querySelector('.card-front').textContent);
+          const shuffledEmojis = [...emojisCurrent].sort(() => Math.random() - 0.5);
           cards.forEach((c, i) => c.querySelector('.card-front').textContent = shuffledEmojis[i]);
-      
-          // Resetear el tablero
-          firstCard = null;
-          secondCard = null;
-          lockBoard = false;
-        }, 1000);
-      }
-
-
-      setTimeout(()=> resetCards(false), 1000);
+        }
+    
+        // Resetear referencias
+        firstCard = null;
+        secondCard = null;
+        lockBoard = false;
+    
+      }, 1000);
     }
+
 
     scoreElement.textContent = score;
     paresElement.textContent = paresRestantes;
