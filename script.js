@@ -274,3 +274,4 @@ function mostrarPuntajes() {
 document.addEventListener("DOMContentLoaded", () => {
   mostrarPuntajes();
 });
+ 
