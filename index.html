@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es"> 
 <head>
@@ -9,7 +8,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
- 
+
   <div id="pantalla-inicial" class="pantalla-inicial">
 
     <video autoplay muted loop id="video-fondo">
@@ -96,6 +95,18 @@
       <button id="btnSalirDefeat">Salir</button>
     </div>
   </div>
+
+  <aside class="panel-info">
+    <h3>Puntaje: <span id="score">0</span></h3>
+    <h3>Pares restantes: <span id="pares">8</span></h3>
+  
+    <!-- Nuevo cuadro de puntajes -->
+    <div id="highScores">
+      <h3>Mejores puntajes:</h3>
+      <ol id="scoreList"></ol>
+    </div>
+  </aside>
+
 
 
   <script src="script.js"></script>
