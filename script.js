@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   let difactual = null;
-  let seconds = 0;
+  let timeLeft = 0;   // tiempo restante
   let timerInterval = null;
 
   // ELEMENTOS DOM
@@ -12,11 +12,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const menudif = document.getElementById('menu-dificultad');
   const pantallainicial = document.getElementById("pantalla-inicial");
   const btnPlay = document.getElementById("btnPlay");
+
+  // Modales
   const victoryModal = document.getElementById("victoryModal");
   const victoryScore = document.getElementById("victoryScore");
   const victoryTime = document.getElementById("victoryTime");
   const btnPlayAgain = document.getElementById("btnPlayAgain");
   const btnSalirVictory = document.getElementById("btnSalirVictory");
+
+  const defeatModal = document.getElementById("defeatModal");
+  const defeatScore = document.getElementById("defeatScore");
+  console.log("defeatScore:", defeatScore);
+  const btnReintentar = document.getElementById("btnReintentar");
+  const btnSalirDefeat = document.getElementById("btnSalirDefeat");
+
   const btnsalir = document.getElementById('btnSalir');
 
   // VARIABLES JUEGO
@@ -28,12 +37,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // TIMER
   function startTimer() {
+    actualizarTimer();
     timerInterval = setInterval(() => {
-      const min = String(Math.floor(seconds / 60)).padStart(2, '0');
-      const sec = String(seconds % 60).padStart(2, '0');
-      timerElement.textContent = `${min}:${sec}`;
-      seconds++;
+      timeLeft--;
+      actualizarTimer();
+
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        mostrarDerrota();
+      }
     }, 1000);
+  }
+
+  function actualizarTimer() {
+    const min = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+    const sec = String(timeLeft % 60).padStart(2, '0');
+    timerElement.textContent = `${min}:${sec}`;
   }
 
   function reiniciarJuego() {
@@ -41,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     board.innerHTML = "";
     score = 0;
     paresRestantes = 0;
-    seconds = 0;
+    timeLeft = 0;
     firstCard = null;
     secondCard = null;
     lockBoard = false;
@@ -52,39 +71,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // INICIAR JUEGO
   function iniciarJuego(dificultad) {
-    if(!dificultad) return;
+    if (!dificultad) return;
+
+    // tiempo inicial por dificultad
+    if (dificultad === "facil") timeLeft = 180;
+    else if (dificultad === "medio") timeLeft = 120;
+    else if (dificultad === "dificil") timeLeft = 90;
 
     let emojis = [];
-    if(dificultad==="facil") emojis = ['🍎','🍌','🍇','🍉'];
-    else if(dificultad==="medio") emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝'];
+    if (dificultad === "facil") emojis = ['🍎','🍌','🍇','🍉'];
+    else if (dificultad === "medio") emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝'];
     else emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝','🥥','🥭','🍑','🍐'];
 
     board.innerHTML = "";
     score = 0;
     paresRestantes = emojis.length;
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
     scoreElement.textContent = score;
     paresElement.textContent = paresRestantes;
 
-    const cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
-    cards.forEach(sym => {
+    const cardsSymbols = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
+
+    cardsSymbols.forEach(sym => {
       const card = template.content.firstElementChild.cloneNode(true);
-      card.querySelector('.card-front').textContent = sym;
+      const front = card.querySelector('.card-front');
+      front.textContent = sym;
+
+      card.classList.remove('is-flipped', 'matched');
       card.addEventListener('click', () => flipCard(card));
       board.appendChild(card);
     });
 
     menudif.style.display = "none";
-    seconds = 0;
-    if(timerInterval) clearInterval(timerInterval);
+    pantallainicial.style.display = "none";
+
+    if (timerInterval) clearInterval(timerInterval);
     startTimer();
   }
 
   // LÓGICA CARTAS
   function flipCard(card) {
-    if(lockBoard || card.classList.contains('is-flipped')) return;
+    if (lockBoard || card.classList.contains('is-flipped') || card.classList.contains('matched')) return;
 
     card.classList.add('is-flipped');
-    if(!firstCard){ firstCard = card; return; }
+    if (!firstCard) { firstCard = card; return; }
 
     secondCard = card;
     lockBoard = true;
@@ -92,25 +124,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstSym = firstCard.querySelector('.card-front').textContent;
     const secondSym = secondCard.querySelector('.card-front').textContent;
 
-    if(firstSym === secondSym){
-      score += 10;
+    if (firstSym === secondSym) {
+      score += 100;
       paresRestantes--;
+
+      firstCard.classList.add('matched');
+      secondCard.classList.add('matched');
+
       resetCards(true);
     } else {
-      setTimeout(()=> resetCards(false), 1000);
+      // Penalizaciones según dificultad
+      if (difactual === "medio" || difactual === "dificil") {
+        score = Math.max(0, score - 2);
+        timeLeft = Math.max(0, timeLeft - 5); // penaliza 5 seg
+        actualizarTimer();
+      }
+
+      setTimeout(() => {
+        firstCard.classList.remove('is-flipped');
+        secondCard.classList.remove('is-flipped');
+
+        if (difactual === "dificil") {
+          // Reordenar solo cartas no acertadas
+          const cardsToShuffle = Array.from(board.children)
+            .filter(c => !c.classList.contains('matched'));
+
+          const emojisToShuffle = cardsToShuffle
+            .map(c => c.querySelector('.card-front').textContent)
+            .sort(() => Math.random() - 0.5);
+
+          cardsToShuffle.forEach((c, i) => {
+            c.querySelector('.card-front').textContent = emojisToShuffle[i];
+          });
+        }
+
+        firstCard = null;
+        secondCard = null;
+        lockBoard = false;
+      }, 1000);
     }
 
     scoreElement.textContent = score;
     paresElement.textContent = paresRestantes;
 
-    if(paresRestantes===0){
+    if (paresRestantes === 0) {
       clearInterval(timerInterval);
       mostrarVictoria();
     }
   }
 
-  function resetCards(match){
-    if(!match){
+  function resetCards(match) {
+    if (!match) {
       firstCard.classList.remove('is-flipped');
       secondCard.classList.remove('is-flipped');
     }
@@ -120,46 +184,94 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // MENÚ DIFICULTAD
-  document.querySelectorAll(".btn-dif").forEach(btn=>{
-    btn.addEventListener("click", ()=> {
+  document.querySelectorAll(".btn-dif").forEach(btn => {
+    btn.addEventListener("click", () => {
       difactual = btn.dataset.dif;
       iniciarJuego(difactual);
     });
   });
 
-  document.getElementById('btnDificultad').addEventListener("click", ()=> menudif.style.display="flex");
-  document.getElementById('btnReiniciar').addEventListener("click", ()=> iniciarJuego(difactual));
-  btnsalir.addEventListener("click", ()=>{
-    if(timerInterval) clearInterval(timerInterval);
+  document.getElementById('btnDificultad').addEventListener("click", () => menudif.style.display = "flex");
+  document.getElementById('btnReiniciar').addEventListener("click", () => iniciarJuego(difactual));
+  btnsalir.addEventListener("click", () => {
+    if (timerInterval) clearInterval(timerInterval);
     reiniciarJuego();
     pantallainicial.style.display = "flex";
     menudif.style.display = "none";
   });
 
-  // MODAL VICTORIA
-  function mostrarVictoria(){
-    victoryScore.textContent = `Puntaje: ${score}`;
-    const min = Math.floor(seconds/60);
-    const sec = seconds%60;
-    victoryTime.textContent = `Tiempo: ${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
-    victoryModal.style.display = "flex";
-  }
+  function mostrarVictoria() {
+  guardarPuntaje(score);
+  victoryScore.textContent = `Puntaje: ${score}`;
+  const min = Math.floor(timeLeft / 60);
+  const sec = timeLeft % 60;
+  victoryTime.textContent = `Tiempo restante: ${String(min).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  victoryModal.style.display = "flex";
+}
 
-  btnPlayAgain.addEventListener("click", ()=>{
+function mostrarDerrota() {
+  guardarPuntaje(score);
+  defeatScore.textContent = `Puntaje: ${score}`;
+  defeatModal.style.display = "flex";
+}
+
+  // Eventos modales
+  btnPlayAgain.addEventListener("click", () => {
     victoryModal.style.display = "none";
-    menudif.style.display = "flex"; // abrir menú para nueva partida
+    menudif.style.display = "flex";
   });
 
-  btnSalirVictory.addEventListener("click", ()=>{
+  btnSalirVictory.addEventListener("click", () => {
     victoryModal.style.display = "none";
     reiniciarJuego();
     pantallainicial.style.display = "flex";
   });
 
+  btnReintentar.addEventListener("click", () => {
+    defeatModal.style.display = "none";
+    menudif.style.display = "flex";
+  });
+
+  btnSalirDefeat.addEventListener("click", () => {
+    defeatModal.style.display = "none";
+    reiniciarJuego();
+    pantallainicial.style.display = "flex";
+  });
+
   // BOTÓN PLAY INICIAL
-  btnPlay.addEventListener("click", ()=>{
+  btnPlay.addEventListener("click", () => {
     pantallainicial.style.display = "none";
     menudif.style.display = "flex";
   });
 });
 
+
+
+/*----------------------------------- panel de mrda */
+// Guardar un puntaje en localStorage
+function guardarPuntaje(puntos) {
+  let highScores = JSON.parse(localStorage.getItem("memoriceScores")) || [];
+  highScores.push(puntos);
+  highScores.sort((a, b) => b - a); // ordenar descendente
+  highScores = highScores.slice(0, 5); // solo guardar top 5
+  localStorage.setItem("memoriceScores", JSON.stringify(highScores));
+  mostrarPuntajes();
+}
+
+// Mostrar puntajes en el panel
+function mostrarPuntajes() {
+  const scoreList = document.getElementById("scoreList");
+  const highScores = JSON.parse(localStorage.getItem("memoriceScores")) || [];
+  scoreList.innerHTML = "";
+  highScores.forEach(score => {
+    const li = document.createElement("li");
+    li.textContent = score;
+    scoreList.appendChild(li);
+  });
+}
+
+// Inicializar puntajes al cargar la página
+document.addEventListener("DOMContentLoaded", () => {
+  mostrarPuntajes();
+});
+ 

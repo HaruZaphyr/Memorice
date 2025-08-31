@@ -84,6 +84,30 @@
     <button id="btnSalirVictory">Salir</button>
   </div>
 </div>
+  
+  <!-- Modal de Derrota -->
+  <div id="defeatModal" class="modal">
+    <div class="modal-content">
+      <h2>¡Tiempo agotado!</h2>
+      <p>Se acabó el tiempo ⏳</p>
+      <p id="defeatScore">Puntaje: 0</p>   <!-- ← FALTA ESTO -->
+      <button id="btnReintentar">Reintentar</button>
+      <button id="btnSalirDefeat">Salir</button>
+    </div>
+  </div>
+
+  <aside class="panel-info">
+    <h3>Puntaje: <span id="score">0</span></h3>
+    <h3>Pares restantes: <span id="pares">8</span></h3>
+  
+    <!-- Nuevo cuadro de puntajes -->
+    <div id="highScores">
+      <h3>Mejores puntajes:</h3>
+      <ol id="scoreList"></ol>
+    </div>
+  </aside>
+
+
 
   <script src="script.js"></script>
 </body>
