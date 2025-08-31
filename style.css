@@ -160,7 +160,7 @@ body {
   width: 100px;
   height: 120px;
   transform-style: preserve-3d;
-  transition: transform 0.6s;
+  transition: transform 0.3s;
 }
 
 .card.is-flipped .card-inner {
