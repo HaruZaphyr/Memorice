@@ -2,25 +2,31 @@ document.addEventListener('DOMContentLoaded', () => {
   let difactual = null;
   let seconds = 0;
   let timerInterval = null;
+
+  // ELEMENTOS DOM
   const timerElement = document.getElementById('contador');
   const board = document.getElementById('board');
   const template = document.getElementById('card-template');
   const scoreElement = document.getElementById('score');
   const paresElement = document.getElementById('pares');
   const menudif = document.getElementById('menu-dificultad');
-
+  const pantallainicial = document.getElementById("pantalla-inicial");
+  const btnPlay = document.getElementById("btnPlay");
   const victoryModal = document.getElementById("victoryModal");
   const victoryScore = document.getElementById("victoryScore");
   const victoryTime = document.getElementById("victoryTime");
   const btnPlayAgain = document.getElementById("btnPlayAgain");
   const btnSalirVictory = document.getElementById("btnSalirVictory");
+  const btnsalir = document.getElementById('btnSalir');
 
+  // VARIABLES JUEGO
   let score = 0;
   let paresRestantes = 0;
   let firstCard = null;
   let secondCard = null;
   let lockBoard = false;
 
+  // TIMER
   function startTimer() {
     timerInterval = setInterval(() => {
       const min = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -44,8 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
     timerElement.textContent = "00:00";
   }
 
+  // INICIAR JUEGO
   function iniciarJuego(dificultad) {
     if(!dificultad) return;
+
     let emojis = [];
     if(dificultad==="facil") emojis = ['🍎','🍌','🍇','🍉'];
     else if(dificultad==="medio") emojis = ['🍎','🍌','🍇','🍉','🍓','🍒','🍍','🥝'];
@@ -58,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
     paresElement.textContent = paresRestantes;
 
     const cards = [...emojis, ...emojis].sort(() => Math.random() - 0.5);
-
     cards.forEach(sym => {
       const card = template.content.firstElementChild.cloneNode(true);
       card.querySelector('.card-front').textContent = sym;
@@ -72,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startTimer();
   }
 
+  // LÓGICA CARTAS
   function flipCard(card) {
     if(lockBoard || card.classList.contains('is-flipped')) return;
 
@@ -111,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lockBoard = false;
   }
 
-  // BOTONES
+  // MENÚ DIFICULTAD
   document.querySelectorAll(".btn-dif").forEach(btn=>{
     btn.addEventListener("click", ()=> {
       difactual = btn.dataset.dif;
@@ -121,12 +129,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('btnDificultad').addEventListener("click", ()=> menudif.style.display="flex");
   document.getElementById('btnReiniciar').addEventListener("click", ()=> iniciarJuego(difactual));
-  document.getElementById('btnSalir').addEventListener("click", ()=>{
+  btnsalir.addEventListener("click", ()=>{
+    if(timerInterval) clearInterval(timerInterval);
     reiniciarJuego();
-    menudif.style.display = "flex";
+    pantallainicial.style.display = "flex";
+    menudif.style.display = "none";
   });
 
-  // MODAL DE VICTORIA
+  // MODAL VICTORIA
   function mostrarVictoria(){
     victoryScore.textContent = `Puntaje: ${score}`;
     const min = Math.floor(seconds/60);
@@ -145,30 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
     reiniciarJuego();
     pantallainicial.style.display = "flex";
   });
-  const btnsalir = document.getElementById('btnSalir');
-  btnsalir.addEventListener("click", () =>{
-    if(timerInterval) clearInterval(timerInterval);
 
-    board.innerHTML = "";
-    scoreElement.textContent = 0;
-    paresElement.textContent = 0;
-    timerElement.textContent = "00:00";
-
-    pantallainicial.style.display = "flex";
-
-    score = 0;
-    paresRestantes = 0;
-    seconds = 0;
-    firstCard = null;
-    secondCard = null;
-    lockBoard = false;
-  });
-
-  const pantallainicial = document.getElementById("pantalla-inicial");
-  const btnPlay = document.getElementById("btnPlay");
-
-  btnPlay.addEventListener("click", () =>{
+  // BOTÓN PLAY INICIAL
+  btnPlay.addEventListener("click", ()=>{
     pantallainicial.style.display = "none";
     menudif.style.display = "flex";
   });
 });
+
