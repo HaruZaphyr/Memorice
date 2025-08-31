@@ -279,3 +279,27 @@ body {
   to { transform: scale(1); opacity: 1; }
 }
 
+#highScores {
+  margin-top: 20px;
+  padding: 10px;
+  border: 2px solid #fff; /* borde blanco */
+  border-radius: 8px;
+  background-color: rgba(0,0,0,0.5); /* fondo semi-transparente */
+  color: #fff; /* texto blanco */
+}
+
+#highScores h3 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  text-align: center;
+}
+
+#highScores ol {
+  margin: 0;
+  padding-left: 20px; /* separación de números */
+}
+
+#highScores li {
+  margin-bottom: 5px;
+  font-size: 14px;
+}
