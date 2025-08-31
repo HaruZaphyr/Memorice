@@ -286,14 +286,14 @@ body {
   padding: 8px 15px;
   border: none;
   border-radius: 8px;
-  background: #4caf50;
+  background-color: #6a0dad;
   color: white;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .modal-content button:hover {
-  background: #45a049;
+  background-color: #4B0082;
 }
 
 /* Animación entrada */
